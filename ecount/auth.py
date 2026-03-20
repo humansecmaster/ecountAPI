@@ -17,12 +17,14 @@ class EcountAuth:
         user_id: str,
         api_cert_key: str,
         lan_type: str = "ko-KR",
+        test_mode: bool = False,
     ):
         self.session = session
         self.com_code = com_code
         self.user_id = user_id
         self.api_cert_key = api_cert_key
         self.lan_type = lan_type
+        self.test_mode = test_mode
         self._session_id: Optional[str] = None
         self._base_url: Optional[str] = None
 
@@ -52,7 +54,10 @@ class EcountAuth:
             RuntimeError: 로그인 실패 시
         """
         zone = self.get_zone()
-        login_url = f"https://sboapi{zone.lower()}.ecount.com/OAPI/V2/OAPILogin"
+        if self.test_mode:
+            login_url = f"http://sboapi{zone.lower()}.ecount.com/OAPI/V2/OAPILogin"
+        else:
+            login_url = f"https://sboapi{zone.lower()}.ecount.com/OAPI/V2/OAPILogin"
 
         payload = {
             "COM_CODE": self.com_code,
@@ -71,7 +76,10 @@ class EcountAuth:
 
         datas = data["Data"]["Datas"]
         self._session_id = datas["SESSION_ID"]
-        self._base_url = f"https://{datas['HOST_URL']}/OAPI/V2"
+        if self.test_mode:
+            self._base_url = f"http://{datas['HOST_URL']}/OAPI/V2"
+        else:
+            self._base_url = f"https://{datas['HOST_URL']}/OAPI/V2"
 
         return self._session_id
 

@@ -25,7 +25,8 @@ class SalesAPI(BaseAPI):
                         "PROD_CD": "90001",
                         "PROD_DES": "품목명",
                         "QTY": "1",
-                        "UNIT_PRICE": "10000"
+                        "UNIT_PRICE": "10000",
+                        "PRICE": "10000"
                     }
                 }
             ]
@@ -43,7 +44,11 @@ class SalesAPI(BaseAPI):
                 - PROD_DES(str): 품목명
                 - QTY     (str): 수량 (필수)
                 - UNIT_PRICE(str): 단가
-                - CUST_CD (str): 거래처코드 (선택)
+                - PRICE   (str): 단가 (UNIT_PRICE와 함께 입력해야 반영됨)
+                - SUPPLY_AMT(str): 공급가액 (선택)
+                - VAT_AMT(str): 부가세 (선택)
+                - SIZE_DES(str): 규격 (선택)
+                - CUST    (str): 거래처코드 (선택, CUST_CD 아님 주의)
 
         Returns:
             {
@@ -65,6 +70,7 @@ class SalesAPI(BaseAPI):
                     "PROD_DES": "ST45L -BZ -2",
                     "QTY": "2",
                     "UNIT_PRICE": "50000",
+                    "PRICE": "50000",
                 }
             ])
         """
